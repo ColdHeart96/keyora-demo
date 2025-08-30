@@ -6,7 +6,7 @@ import { createChat } from '@n8n/chat';
 export function N8nChatbotEmbed() {
   useEffect(() => {
     createChat({
-      webhookUrl: 'https://n8n.srv810771.hstgr.cloud/webhook-test/chatbot-2',
+      webhookUrl: 'https://n8n.srv810771.hstgr.cloud/webhook/chatbot-2',
       theme: {
         brandColor: '#2563eb', // Bleu principal
         backgroundColor: '#ffffff', // Fond blanc
