@@ -35,8 +35,6 @@ export default function DashboardPage() {
       setLoading(false);
     };
     fetchAll();
-    interval = setInterval(fetchAll, 10000);
-    return () => clearInterval(interval);
   }, [supabase]);
 
   // --- BIENS ---
