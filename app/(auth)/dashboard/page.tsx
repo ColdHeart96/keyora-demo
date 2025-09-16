@@ -35,8 +35,6 @@ export default function DashboardPage() {
       setLoading(false);
     };
     fetchAll();
-    interval = setInterval(fetchAll, 10000);
-    return () => clearInterval(interval);
   }, [supabase]);
 
   // --- BIENS ---
@@ -195,61 +193,68 @@ export default function DashboardPage() {
 
   return (
     <>
-      <Navbar title="Tableau de bord" />
+      <Navbar 
+        title="Tableau de bord" 
+        description={new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+      >
+        <input type="text" placeholder="Recherche..." className="rounded-lg border px-3 py-1.5 text-sm bg-card text-card-foreground shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </Navbar>
       <div className="flex-1 space-y-8 p-6 pt-4 bg-background max-w-7xl mx-auto">
-        {/* HEADER */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-2">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
-            <div className="text-muted-foreground text-sm">{new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
-          </div>
-          <div className="flex items-center gap-2">
-            <input type="text" placeholder="Recherche..." className="rounded-lg border px-3 py-1.5 text-sm bg-card text-card-foreground shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          </div>
-      </div>
       
         {/* KPIs */}
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 mb-4">
-          <Card className="rounded-xl shadow-sm">
-            <CardContent className="flex flex-col items-center py-4">
-              <HomeIcon className="h-6 w-6 text-blue-500 mb-1" />
-              <div className="text-lg font-semibold">{biensStats.total}</div>
-              <div className="text-xs text-muted-foreground">Biens</div>
+          <Card variant="modern" className="animate-slide-in-up">
+            <CardContent className="flex flex-col items-center py-6">
+              <div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-900/20 mb-3 shadow-medium">
+                <HomeIcon className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+              </div>
+              <div className="text-2xl font-bold text-foreground">{biensStats.total}</div>
+              <div className="text-sm text-muted-foreground font-medium">Biens</div>
             </CardContent>
           </Card>
-          <Card className="rounded-xl shadow-sm">
-            <CardContent className="flex flex-col items-center py-4">
-              <Users className="h-6 w-6 text-green-500 mb-1" />
-              <div className="text-lg font-semibold">{clientsStats.total}</div>
-              <div className="text-xs text-muted-foreground">Clients</div>
+          <Card variant="modern" className="animate-slide-in-up" style={{animationDelay: '100ms'}}>
+            <CardContent className="flex flex-col items-center py-6">
+              <div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-900/20 mb-3 shadow-medium">
+                <Users className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+              </div>
+              <div className="text-2xl font-bold text-foreground">{clientsStats.total}</div>
+              <div className="text-sm text-muted-foreground font-medium">Clients</div>
             </CardContent>
           </Card>
-          <Card className="rounded-xl shadow-sm">
-            <CardContent className="flex flex-col items-center py-4">
-              <UserCheck className="h-6 w-6 text-yellow-500 mb-1" />
-              <div className="text-lg font-semibold">{prospectsStats.total}</div>
-              <div className="text-xs text-muted-foreground">Prospects</div>
+          <Card variant="modern" className="animate-slide-in-up" style={{animationDelay: '200ms'}}>
+            <CardContent className="flex flex-col items-center py-6">
+              <div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-900/20 mb-3 shadow-medium">
+                <UserCheck className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+              </div>
+              <div className="text-2xl font-bold text-foreground">{prospectsStats.total}</div>
+              <div className="text-sm text-muted-foreground font-medium">Prospects</div>
             </CardContent>
           </Card>
-          <Card className="rounded-xl shadow-sm">
-            <CardContent className="flex flex-col items-center py-4">
-              <CalendarIcon className="h-6 w-6 text-indigo-500 mb-1" />
-              <div className="text-lg font-semibold">{visitsStats.total}</div>
-              <div className="text-xs text-muted-foreground">Visites</div>
+          <Card variant="modern" className="animate-slide-in-up" style={{animationDelay: '300ms'}}>
+            <CardContent className="flex flex-col items-center py-6">
+              <div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-900/20 mb-3 shadow-medium">
+                <CalendarIcon className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+              </div>
+              <div className="text-2xl font-bold text-foreground">{visitsStats.total}</div>
+              <div className="text-sm text-muted-foreground font-medium">Visites</div>
             </CardContent>
           </Card>
-          <Card className="rounded-xl shadow-sm">
-            <CardContent className="flex flex-col items-center py-4">
-              <CheckCircle className="h-6 w-6 text-pink-500 mb-1" />
-              <div className="text-lg font-semibold">{tasksStats.todo}</div>
-              <div className="text-xs text-muted-foreground">Tâches à faire</div>
+          <Card variant="modern" className="animate-slide-in-up" style={{animationDelay: '400ms'}}>
+            <CardContent className="flex flex-col items-center py-6">
+              <div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-900/20 mb-3 shadow-medium">
+                <CheckCircle className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+              </div>
+              <div className="text-2xl font-bold text-foreground">{tasksStats.todo}</div>
+              <div className="text-sm text-muted-foreground font-medium">Tâches à faire</div>
             </CardContent>
           </Card>
-          <Card className="rounded-xl shadow-sm">
-            <CardContent className="flex flex-col items-center py-4">
-              <TrendingUp className="h-6 w-6 text-gray-500 mb-1" />
-              <div className="text-lg font-semibold">{conversionRate.toFixed(1)}%</div>
-              <div className="text-xs text-muted-foreground">Taux conversion</div>
+          <Card variant="modern" className="animate-slide-in-up" style={{animationDelay: '500ms'}}>
+            <CardContent className="flex flex-col items-center py-6">
+              <div className="p-3 rounded-xl bg-green-50 dark:bg-green-900/20 mb-3 shadow-medium">
+                <TrendingUp className="h-6 w-6 text-green-600 dark:text-green-400" />
+              </div>
+              <div className="text-2xl font-bold text-foreground">{conversionRate.toFixed(1)}%</div>
+              <div className="text-sm text-muted-foreground font-medium">Taux conversion</div>
             </CardContent>
           </Card>
               </div>
@@ -257,8 +262,13 @@ export default function DashboardPage() {
         {/* GRILLE PRINCIPALE */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-4">
           {/* Graphe principal (courbe activité prospects) */}
-          <Card className="col-span-2 rounded-xl shadow-sm">
-            <CardHeader><CardTitle>Évolution prospects (6 mois)</CardTitle></CardHeader>
+          <Card variant="modern" className="col-span-2 animate-slide-in-right">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"></div>
+                Évolution prospects (6 mois)
+              </CardTitle>
+            </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={220}>
                 <LineChart data={prospectsByMonth} margin={{ left: 0, right: 0, top: 10, bottom: 0 }}>
@@ -266,21 +276,26 @@ export default function DashboardPage() {
                   <XAxis dataKey="month" stroke="#64748b" fontSize={12} />
                   <YAxis stroke="#64748b" fontSize={12} />
                   <Tooltip />
-                  <Line type="monotone" dataKey="count" stroke="#3B82F6" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 6 }} />
+                  <Line type="monotone" dataKey="count" stroke="#667eea" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 6 }} />
                 </LineChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
           {/* Radar activité */}
-          <Card className="rounded-xl shadow-sm">
-            <CardHeader><CardTitle>Activité par type</CardTitle></CardHeader>
+          <Card variant="glass" className="animate-slide-in-up">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-white">
+                <div className="w-2 h-2 bg-white rounded-full"></div>
+                Activité par type
+              </CardTitle>
+            </CardHeader>
           <CardContent>
               <ResponsiveContainer width="100%" height={220}>
                 <RadarChart data={radarData} outerRadius={80}>
                   <PolarGrid />
                   <PolarAngleAxis dataKey="type" />
                   <PolarRadiusAxis angle={30} domain={[0, Math.max(...radarData.map(d => d.value), 1)]} />
-                  <Radar name="Activité" dataKey="value" stroke="#6366F1" fill="#6366F1" fillOpacity={0.4} />
+                  <Radar name="Activité" dataKey="value" stroke="#ffffff" fill="#ffffff" fillOpacity={0.3} />
                   <Tooltip />
                 </RadarChart>
               </ResponsiveContainer>

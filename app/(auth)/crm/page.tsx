@@ -202,7 +202,10 @@ export default function CrmPage() {
 
   return (
     <>
-      <Navbar title="CRM - Sales Pipeline" />
+      <Navbar 
+        title="CRM - Sales Pipeline" 
+        description="Gérez votre pipeline de ventes et suivez vos prospects"
+      />
       <div className="w-full flex justify-center">
         <div className="max-w-7xl w-full px-2 md:px-6">
           <DndContext

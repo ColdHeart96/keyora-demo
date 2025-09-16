@@ -186,7 +186,10 @@ export default function NewPropertyPage() {
 
   return (
     <>
-      <Navbar title="Nouvelle propriété">
+      <Navbar 
+        title="Nouvelle propriété"
+        description="Ajoutez un nouveau bien à votre portefeuille"
+      >
         <Button 
           variant="outline"
           onClick={() => router.back()}

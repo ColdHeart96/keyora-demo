@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
+import { Navbar } from "@/components/navbar"
 
 export default function ClientsPage() {
   const pathname = usePathname()
@@ -127,67 +128,71 @@ export default function ClientsPage() {
   ]
 
   return (
-    <div className="flex-1 space-y-4 p-4 md:p-8 pt-6 dark:bg-black">
-      <div className="flex items-center justify-between space-y-2 pb-10">
-        <div className="space-y-0.5">
-          <h2 className="text-2xl font-bold tracking-tight dark:text-white">Clients</h2>
-          <p className="text-muted-foreground dark:text-gray-400">
-            Gérez vos clients et leurs informations
-          </p>
-        </div>
-        <div className="flex items-center space-x-2">
-          <Link href="/clients/new">
-            <Button className="bg-blue-500 hover:bg-blue-600 dark:text-white">
-              <Plus className="mr-2 h-4 w-4" />
-              Nouveau client
-            </Button>
-          </Link>
-        </div>
-      </div>
+    <>
+      <Navbar 
+        title="Clients" 
+        description="Gérez vos clients et leurs informations"
+      >
+        <Link href="/clients/new">
+          <Button variant="default" size="lg" className="bg-blue-600 hover:bg-blue-700 text-white shadow-medium">
+            <Plus className="mr-2 h-5 w-5" />
+            Nouveau client
+          </Button>
+        </Link>
+      </Navbar>
+      <div className="flex-1 space-y-6 p-6 pt-4 bg-background max-w-7xl mx-auto">
       
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {stats_cards.map((stat, index) => (
-          <Card key={index} className="shadow-lg p-6 transition-colors">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium dark:text-gray-200">
+          <Card 
+            key={index} 
+            variant="modern" 
+            className="animate-slide-in-up"
+            style={{ animationDelay: `${index * 100}ms` }}
+          >
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+              <CardTitle className="text-sm font-semibold text-muted-foreground">
                 {stat.title}
               </CardTitle>
-              <div className="p-2 rounded-full dark:bg-black/40">
-                <stat.icon className="h-4 w-4 dark:text-white" />
+              <div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-900/20">
+                <stat.icon className="h-5 w-5 text-blue-600 dark:text-blue-400" />
               </div>
             </CardHeader>
             <CardContent>
-              <div className="flex items-center space-x-2">
-                <div className="text-2xl font-bold dark:text-white">{stat.value}</div>
+              <div className="flex items-center space-x-3">
+                <div className="text-3xl font-bold text-foreground">{stat.value}</div>
                 <span
-                  className={`flex items-center text-xs ${
-                    stat.trendUp ? 'text-emerald-500' : 'text-red-500'
-                  }`}
+                  className={cn(
+                    "flex items-center text-sm font-medium px-2 py-1 rounded-lg",
+                    stat.trendUp 
+                      ? 'text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-900/20' 
+                      : 'text-gray-600 bg-gray-50 dark:text-gray-400 dark:bg-gray-900/20'
+                  )}
                 >
                   {stat.trend}
                   {stat.trendUp ? (
-                    <ArrowUpRight className="h-4 w-4" />
+                    <ArrowUpRight className="h-4 w-4 ml-1" />
                   ) : (
-                    <ArrowDownRight className="h-4 w-4" />
+                    <ArrowDownRight className="h-4 w-4 ml-1" />
                   )}
                 </span>
               </div>
-              <p className="text-xs dark:text-gray-400">
+              <p className="text-sm text-muted-foreground mt-2 font-medium">
                 {stat.description}
               </p>
             </CardContent>
-            <div
-              className={`absolute bottom-0 left-0 h-0.5 w-full dark:bg-white/10`}
-            />
           </Card>
         ))}
       </div>
 
-      <div className="grid gap-4 grid-cols-1">
-        <Card className="shadow-lg p-6 transition-colors">
+      <div className="grid gap-6 grid-cols-1">
+        <Card variant="modern" className="animate-slide-in-up" style={{ animationDelay: '400ms' }}>
           <CardHeader>
-            <CardTitle className="dark:text-white">Liste des Clients</CardTitle>
-            <CardDescription className="dark:text-gray-400">
+            <CardTitle className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"></div>
+              Liste des Clients
+            </CardTitle>
+            <CardDescription>
               Gérez vos clients et leurs informations
             </CardDescription>
           </CardHeader>
@@ -196,6 +201,7 @@ export default function ClientsPage() {
           </CardContent>
         </Card>
       </div>
-    </div>
+      </div>
+    </>
   )
 } 

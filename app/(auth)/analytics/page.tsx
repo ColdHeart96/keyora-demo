@@ -207,18 +207,11 @@ export default function AnalyticsPage() {
 
   return (
     <>
-      <Navbar title="Analytique" />
+      <Navbar 
+        title="Analytique" 
+        description="Visualisez l'évolution de votre activité, vos KPIs et vos données clés en temps réel"
+      />
       <div className="min-h-screen bg-background dark:bg-[#101014] p-4 md:p-8 max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold flex items-center gap-3">
-            <PieChartIcon className="w-8 h-8 text-primary" />
-            Analytique
-          </h1>
-          <div className="text-muted-foreground text-base mt-2">
-            Visualisez l’évolution de votre activité, vos KPIs et vos données clés en temps réel.
-          </div>
-        </div>
 
         {/* Filtres */}
         <div className="sticky top-0 z-30 bg-card/80 dark:bg-card/80 backdrop-blur border-b border-border rounded-xl shadow-lg flex flex-wrap gap-6 items-end px-4 py-4 mb-10">

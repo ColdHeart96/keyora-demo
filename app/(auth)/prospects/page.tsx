@@ -4,10 +4,12 @@ import { useEffect, useState } from 'react'
 import { useUser } from '@clerk/nextjs'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { Users, UserPlus, UserCheck, Mail, Phone, Activity, ArrowUpRight, ArrowDownRight, Plus, BadgeEuro, MapPin, StickyNote, Trash } from 'lucide-react'
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
+import { Navbar } from "@/components/navbar"
 
 export default function ProspectsPage() {
   const { user } = useUser()
@@ -81,125 +83,161 @@ export default function ProspectsPage() {
   ]
 
   return (
-    <div className="flex flex-col px-4 py-8 min-h-screen dark:bg-black">
-      <div className="flex items-center justify-between space-y-2 pb-10">
-        <div className="space-y-0.5">
-          <h1 className="text-3xl font-bold tracking-tight text-card-foreground">Prospects</h1>
-          <p className="text-muted-foreground">
-            Gérez vos prospects et leurs informations
-          </p>
-        </div>
-        <div className="flex items-center space-x-2">
-          <Link href="/prospects/new">
-            <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded flex items-center gap-2">
-              <Plus className="h-4 w-4" />
-              Nouveau prospect
-            </button>
-          </Link>
-        </div>
-      </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mb-8">
+    <>
+      <Navbar 
+        title="Prospects" 
+        description="Gérez vos prospects et leurs informations"
+      >
+        <Link href="/prospects/new">
+          <Button variant="default" size="lg" className="bg-blue-600 hover:bg-blue-700 text-white shadow-medium">
+            <Plus className="mr-2 h-5 w-5" />
+            Nouveau prospect
+          </Button>
+        </Link>
+      </Navbar>
+      <div className="flex-1 space-y-6 p-6 pt-4 bg-background max-w-7xl mx-auto">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
         {stats_cards.map((stat, index) => (
-          <div key={index} className="relative overflow-hidden border-0 dark:bg-[#1a1a1a] rounded-2xl shadow-md">
-            <div className="flex flex-row items-center justify-between space-y-0 pb-2 px-6 pt-6">
-              <span className="text-sm font-medium text-card-foreground">
+          <Card 
+            key={index} 
+            variant="modern" 
+            className="animate-slide-in-up"
+            style={{ animationDelay: `${index * 100}ms` }}
+          >
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+              <CardTitle className="text-sm font-semibold text-muted-foreground">
                 {stat.title}
-              </span>
-              <div className="p-2 rounded-full dark:bg-black/40">
-                <stat.icon className="h-4 w-4 text-card-foreground" />
+              </CardTitle>
+              <div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-900/20">
+                <stat.icon className="h-5 w-5 text-blue-600 dark:text-blue-400" />
               </div>
-            </div>
-            <div className="px-6 pb-6">
-              <div className="flex items-center space-x-2">
-                <div className="text-2xl font-bold text-card-foreground">{stat.value}</div>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center space-x-3">
+                <div className="text-3xl font-bold text-foreground">{stat.value}</div>
                 <span
-                  className={`flex items-center text-xs ${
-                    stat.trendUp ? 'text-emerald-500' : 'text-red-500'
-                  }`}
+                  className={cn(
+                    "flex items-center text-sm font-medium px-2 py-1 rounded-lg",
+                    stat.trendUp 
+                      ? 'text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-900/20' 
+                      : 'text-gray-600 bg-gray-50 dark:text-gray-400 dark:bg-gray-900/20'
+                  )}
                 >
                   {stat.trend}
                   {stat.trendUp ? (
-                    <ArrowUpRight className="h-4 w-4" />
+                    <ArrowUpRight className="h-4 w-4 ml-1" />
                   ) : (
-                    <ArrowDownRight className="h-4 w-4" />
+                    <ArrowDownRight className="h-4 w-4 ml-1" />
                   )}
                 </span>
               </div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-sm text-muted-foreground mt-2 font-medium">
                 {stat.description}
               </p>
-            </div>
-            <div
-              className={`absolute bottom-0 left-0 h-0.5 w-full dark:bg-white/10`}
-            />
-          </div>
+            </CardContent>
+          </Card>
         ))}
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {prospects.length === 0 && (
-          <div className="col-span-full text-center text-muted-foreground">Aucun prospect trouvé.</div>
+          <div className="col-span-full text-center text-muted-foreground py-12">
+            <div className="text-lg font-medium">Aucun prospect trouvé.</div>
+            <p className="text-sm mt-2">Commencez par ajouter votre premier prospect.</p>
+          </div>
         )}
-        {prospects.map((prospect) => (
-          <Card key={prospect.id} className="w-full max-w-md mx-auto">
-            <div className="flex justify-between items-start px-3 pt-3">
+        {prospects.map((prospect, index) => (
+          <Card 
+            key={prospect.id} 
+            variant="modern" 
+            className="w-full animate-slide-in-up hover:shadow-large transition-all duration-300"
+            style={{ animationDelay: `${(index + 3) * 100}ms` }}
+          >
+            <div className="flex justify-between items-start p-4 pb-2">
               <div />
               <div className="flex gap-1">
                 <Link href={`/prospects/${prospect.id}`} title="Détails">
-                  <button className="p-1.5 rounded hover:bg-accent transition-colors" aria-label="Détails">
-                    <Activity className="h-4 w-4 text-muted-foreground hover:text-primary" />
-                  </button>
+                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <Activity className="h-4 w-4" />
+                  </Button>
                 </Link>
                 <Link href={`/prospects/${prospect.id}/edit`} title="Modifier">
-                  <button className="p-1.5 rounded hover:bg-accent transition-colors" aria-label="Modifier">
-                    <UserPlus className="h-4 w-4 text-blue-400 hover:text-blue-600" />
-                  </button>
+                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <UserPlus className="h-4 w-4 text-blue-500" />
+                  </Button>
                 </Link>
-                <button
-                  className="p-1.5 rounded hover:bg-accent transition-colors"
-                  aria-label="Supprimer"
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
                   onClick={() => {
                     setProspectToDelete(prospect)
                     setOpenConfirmDialog(true)
                   }}
                 >
-                  <Trash className="h-4 w-4 text-red-400 hover:text-red-600" />
-                </button>
+                  <Trash className="h-4 w-4 text-red-500" />
+                </Button>
               </div>
             </div>
-            <CardHeader className="pb-1 pt-0 flex flex-row items-center gap-2 px-3">
-              <UserCheck className="h-6 w-6 text-blue-500" />
+            <CardHeader className="pb-3 pt-0 flex flex-row items-center gap-3 px-4">
+              <div className="p-2 rounded-xl bg-blue-50 dark:bg-blue-900/20">
+                <UserCheck className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+              </div>
               <div>
-                <CardTitle className="text-base font-bold text-card-foreground leading-tight">
+                <CardTitle className="text-lg font-bold text-foreground leading-tight">
                   {prospect.first_name || prospect.last_name
                     ? `${prospect.first_name || ''} ${prospect.last_name || ''}`.trim()
                     : prospect.email}
                 </CardTitle>
-                <div className="text-xs text-muted-foreground font-normal mt-0.5">Prospect #{prospect.id?.slice(0, 8)}</div>
+                <div className="text-xs text-muted-foreground font-medium mt-1">Prospect #{prospect.id?.slice(0, 8)}</div>
               </div>
             </CardHeader>
-            <CardContent className="flex flex-col gap-1.5 pb-2 px-3">
-              <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                <Mail className="h-4 w-4" />
-                <span className="text-card-foreground font-medium truncate">{prospect.email || '—'}</span>
+            <CardContent className="flex flex-col gap-3 pb-4 px-4">
+              <div className="flex items-center gap-3 text-muted-foreground">
+                <div className="p-1.5 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                  <Mail className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                </div>
+                <span className="text-foreground font-medium truncate">{prospect.email || '—'}</span>
               </div>
-              <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                <Phone className="h-4 w-4" />
-                <span className="text-card-foreground font-medium truncate">{prospect.phone || '—'}</span>
+              <div className="flex items-center gap-3 text-muted-foreground">
+                <div className="p-1.5 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                  <Phone className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                </div>
+                <span className="text-foreground font-medium truncate">{prospect.phone || '—'}</span>
               </div>
-              <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                <BadgeEuro className="h-4 w-4" />
-                <span>Budget :</span>
-                <span className="text-card-foreground font-semibold">{prospect.budget_min ? `${prospect.budget_min} €` : '—'}{prospect.budget_max ? ` - ${prospect.budget_max} €` : ''}</span>
+              <div className="flex items-center gap-3 text-muted-foreground">
+                <div className="p-1.5 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                  <BadgeEuro className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs text-muted-foreground">Budget</span>
+                  <span className="text-foreground font-semibold">
+                    {prospect.budget_min ? `${prospect.budget_min} €` : '—'}
+                    {prospect.budget_max ? ` - ${prospect.budget_max} €` : ''}
+                  </span>
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                <MapPin className="h-4 w-4" />
-                <span>Quartiers/Villes souhaités :</span>
-                <span className="text-card-foreground font-medium truncate">{prospect.desired_locations && prospect.desired_locations.length > 0 ? prospect.desired_locations.join(', ') : '—'}</span>
+              <div className="flex items-start gap-3 text-muted-foreground">
+                <div className="p-1.5 rounded-lg bg-gray-50 dark:bg-gray-800/50 mt-0.5">
+                  <MapPin className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs text-muted-foreground">Localisation souhaitée</span>
+                  <span className="text-foreground font-medium truncate">
+                    {prospect.desired_locations && prospect.desired_locations.length > 0 
+                      ? prospect.desired_locations.join(', ') 
+                      : '—'}
+                  </span>
+                </div>
               </div>
               {prospect.notes && (
-                <div className="flex items-start gap-2 text-muted-foreground text-sm">
-                  <StickyNote className="h-4 w-4 mt-0.5" />
-                  <span className="whitespace-pre-line text-card-foreground font-medium">{prospect.notes}</span>
+                <div className="flex items-start gap-3 text-muted-foreground">
+                  <div className="p-1.5 rounded-lg bg-gray-50 dark:bg-gray-800/50 mt-0.5">
+                    <StickyNote className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-xs text-muted-foreground">Notes</span>
+                    <span className="text-foreground font-medium text-sm leading-relaxed">{prospect.notes}</span>
+                  </div>
                 </div>
               )}
             </CardContent>
@@ -226,6 +264,7 @@ export default function ProspectsPage() {
         confirmLabel="Supprimer"
         cancelLabel="Annuler"
       />
-    </div>
+      </div>
+    </>
   )
 } 

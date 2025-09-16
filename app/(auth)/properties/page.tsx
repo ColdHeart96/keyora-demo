@@ -155,7 +155,10 @@ export default function PropertiesPage() {
   if (viewMode === 'detail' && selectedProperty) {
     return (
       <>
-        <Navbar title="Détails de la propriété">
+        <Navbar 
+          title="Détails de la propriété"
+          description="Informations détaillées sur la propriété sélectionnée"
+        >
           <Button 
             variant="outline"
             onClick={() => setViewMode('card')}
@@ -312,7 +315,10 @@ export default function PropertiesPage() {
 
   return (
     <>
-      <Navbar title="Propriétés">
+      <Navbar 
+        title="Propriétés"
+        description="Gérez votre portefeuille immobilier et vos biens"
+      >
         <Link href="/properties/new">
           <Button variant="default" className="bg-blue-600 hover:bg-blue-700">
             <PlusIcon className="h-4 w-4 mr-2" />
